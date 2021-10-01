@@ -4,18 +4,35 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const Parse = require('parse/node');
 
+const fs = require('fs');
+
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
 Parse.serverURL = "https://parseapi.back4app.com/"
-//const {api_key} = require("./key/key.json");
 
-const Test = Parse.Object.extend("ClothingItem");
-const query = new Parse.Query(Test);
-query.get("OkOJNpcd59")
-.then((test) => {
-  console.log(test.get("Test"));
-}, (error) => {
-  console.log(error);
-});
+function base64_encode(file)
+{
+   const bitmap = fs.readFileSync(file);
+   return new Buffer(bitmap).toString('base64');
+}
+
+function add_clothing_item(image_path, name, category, type, color)
+{
+   let imagedata = base64_encode(image_path);
+   let image_to_db = new Parse.Object("ClothingItem");
+   image_to_db.set("name", name);
+   image_to_db.set("imagedata", imagedata);
+   image_to_db.set("category", category);
+   image_to_db.set("type", type);
+   image_to_db.set("color", color);
+   image_to_db.save();
+}
+
+/*
+add_clothing_item('images/shirt.jpg', 'White T-shirt', 'Top', 'Short Sleeve T-shirt', 'White');
+add_clothing_item('images/shoes.jpg', 'Red White AF1 Nike Sneakers', 'Bottom', 'Sneakers', 'Red, White');
+add_clothing_item('images/shorts.jpg', 'Womens Blue Jean Shorts', 'Bottom', 'Shorts', 'Blue');
+add_clothing_item('images/strawhat.jpg', 'Strawhat', 'Accessories', 'Hat', 'Brown, Blue');
+*/
 
 const app = express();
 
