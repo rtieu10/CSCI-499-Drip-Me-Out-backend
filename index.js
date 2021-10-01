@@ -2,8 +2,20 @@ const https = require('https');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const Parse = require('parse/node');
 
-const {api_key} = require("./key/key.json");
+Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
+Parse.serverURL = "https://parseapi.back4app.com/"
+//const {api_key} = require("./key/key.json");
+
+const Test = Parse.Object.extend("ClothingItem");
+const query = new Parse.Query(Test);
+query.get("OkOJNpcd59")
+.then((test) => {
+  console.log(test.get("Test"));
+}, (error) => {
+  console.log(error);
+});
 
 const app = express();
 
@@ -11,7 +23,7 @@ let weather_status = "";
 let low = "";
 let high = "";
 
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.post('/zipcode', (req, res) => {
    if (req.body.zipcode)
