@@ -1,1 +1,1 @@
-Deployed at dripmeout.herokuapp.com
+Live at dripmeout.herokuapp.com
