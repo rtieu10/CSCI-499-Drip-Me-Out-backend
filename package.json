@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/rtieu10/CSCI-499-Drip-Me-Out-backend#readme",
   "dependencies": {
-    "express": "^4.17.1",
     "parse": "^3.3.0"
   }
 }
