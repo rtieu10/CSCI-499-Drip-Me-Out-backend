@@ -44,7 +44,8 @@ server.on("request", function(req, res) {
 			function get_image_path() {
 				query.get(results[i].id).then((clothingItem) => {
 					let image_data = clothingItem.get("imagedata");
-					res.write(image_data + "*");
+					let image_objectid = results[i].id;
+					res.write(image_data + image_objectid + "*");
 					if (i < results.length - 1)
 					{
 						i++;
@@ -60,6 +61,10 @@ server.on("request", function(req, res) {
 			get_image_path();
 		}
 		find_items();
+	}
+	else if (req.method === "POST" && req.url.startsWith("item_name"))
+	{
+		
 	}
 });
 
