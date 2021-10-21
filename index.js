@@ -3,6 +3,7 @@ const https = require('https');
 const Parse = require('parse/node');
 const http = require('http');
 const fs = require('fs');
+const url = require('url');
 
 const { api_key } = require('./credential.json');
 
@@ -62,11 +63,111 @@ server.on("request", function(req, res) {
 		}
 		find_items();
 	}
-	else if (req.method === "POST" && req.url.startsWith("item_name"))
+	else if (req.method === "POST" && req.url.startsWith("/item_name"))
 	{
 		
 	}
+	else if (req.method === "POST" && req.url.startsWith("/signup"))
+	{
+		let email = "";
+		let password = "";
+
+		let login_info = "";
+		let body = '';
+		req.on('data', function (data) {
+			body += data;
+		});
+		req.on('end', function () {
+			login_info = body;
+			for (let i = 0; i < login_info.length; i++)
+			{
+				if (login_info[i] === "&")
+				{
+					email = login_info.substr(0, i);
+					password = login_info.substr(i + 1, login_info.length);
+					break;
+				}
+			}
+
+			user_search(email, password, res);
+		});
+	}
+	else if (req.method === "POST" && req.url.startsWith("/login"))
+	{
+		let login_info = "";
+		let body = '';
+		req.on('data', function (data) {
+			body += data;
+		});
+		req.on('end', function () {
+			login_info = body;
+			for (let i = 0; i < login_info.length; i++)
+			{
+				if (login_info[i] === "&")
+				{
+					email = login_info.substr(0, i);
+					password = login_info.substr(i + 1, login_info.length);
+					break;
+				}
+			}
+			let loginpage = true;
+			user_search(email, password, res, loginpage);
+		});
+	}
 });
+
+function user_search(email, password, res, loginpage)
+{
+	const Users = Parse.Object.extend("Users");
+	const query = new Parse.Query(Users);
+	async function find_user() {
+		const results = await query.find();
+		let i = 0;
+		let recorded = false;
+		function check_user()
+		{
+			query.get(results[i].id).then((user) => {
+				let db_email = user.get("email");
+				let db_password = user.get("password");
+				if (db_email === email && db_password === password)
+				{
+					let db_email = user.get("email");
+					let db_password = user.get("password");
+
+					res.write("verified");
+					res.end();
+					recorded = true;
+				}
+				if (i < results.length - 1)
+				{
+					i++;
+					check_user();
+				}
+				else 
+				{
+					if (!recorded && !loginpage)
+					{
+						let user_to_db = new Parse.Object("Users");
+						user_to_db.set("email", email);
+						user_to_db.set("password", password);
+						user_to_db.save();
+						res.write("signedup")
+						res.end();
+					}
+					if (loginpage)
+					{
+						res.write("unsuccessful");
+						res.end();
+					}
+				}
+			}, (error) => {
+				console.log('user not retrieved, error');
+			});
+		}
+		check_user();
+	};
+	find_user();
+}
 
 server.listen(8080);
 
