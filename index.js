@@ -7,7 +7,7 @@ const url = require('url');
 const {parseUserSignup, parseUserLogin} = require("./user.js")
 
 
-// const { api_key } = require('./credential.json');
+const { api_key } = require('./credential.json');
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
 Parse.serverURL = "https://parseapi.back4app.com/"
@@ -257,17 +257,17 @@ let weather_status = "";
 let low = "";
 let high = "";
 
-// function get_current_weather(res){
-// 	let endpoint = `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&appid=${api_key}`;
-// 	https.request(`${endpoint}`, {method:"GET"}, process_stream).end();
-// 	function process_stream(weather_stream){
-// 		let weather_data = "";
-// 		weather_stream.on("data", chunk => weather_data += chunk);
-// 		weather_stream.on("end", () => {
-// 			serve_results(weather_data, res);
-// 		});
-// 	}
-// }
+function get_current_weather(res){
+	let endpoint = `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&appid=${api_key}`;
+	https.request(`${endpoint}`, {method:"GET"}, process_stream).end();
+	function process_stream(weather_stream){
+		let weather_data = "";
+		weather_stream.on("data", chunk => weather_data += chunk);
+		weather_stream.on("end", () => {
+			serve_results(weather_data, res);
+		});
+	}
+}
 
 function serve_results(weather_data, res){
 	weather = JSON.parse(weather_data);
