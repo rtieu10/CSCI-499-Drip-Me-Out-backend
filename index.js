@@ -4,6 +4,7 @@ const Parse = require('parse/node');
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
+const {parseUserSignup, parseUserLogin} = require("./user.js")
 
 
 // const { api_key } = require('./credential.json');
@@ -228,36 +229,8 @@ server.on("request", function(req, res) {
 	}
 });
 
-async function parseUserSignup(usern, email, pass, res){
-	const user = new Parse.User();
-	user.set("username", usern);
-	user.set("password", pass);
-	user.set("email", email);
 
-	try {
-		await user.signUp();
-		// Hooray! Let them use the app now.
-		res.write("signedup")
-		res.end();
-	} catch (error) {
-		// Show the error message somewhere and let the user try again.
-		console.log("Error: " + error.code + " " + error.message);
-		res.write("unsuccessful");
-		res.end();
-	}
-}
 
-async function parseUserLogin(email, pass, res){
-	try{
-		const user = await Parse.User.logIn(email, pass);
-		res.write("verified")
-		res.end();
-	} catch (error) {
-		console.log("Error: " + error.code + " " + error.message);
-		res.write("unsuccessful");
-		res.end();
-	}
-}
 
 server.listen(8080);
 
