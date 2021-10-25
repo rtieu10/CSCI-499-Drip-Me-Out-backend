@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/rtieu10/CSCI-499-Drip-Me-Out-backend#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "parse": "^3.3.0"
   }
 }
