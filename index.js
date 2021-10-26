@@ -5,9 +5,8 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const {parseUserSignup, parseUserLogin} = require("./user.js")
+const { get_current_weather, serve_results } = require("./weather.js")
 
-
-const { api_key } = require('./credential.json');
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
 Parse.serverURL = "https://parseapi.back4app.com/"
@@ -19,25 +18,29 @@ const server = http.createServer();
 
 server.on("listening", () => {});
 
+
+/*
+request requires JSON
+{ "zipcode":int }
+
+response outputs JSON
+{ "status":string
+	"high":int
+	"low":int }
+*/
 server.on("request", function(req, res) {
 	if (req.method === "POST" && req.url.startsWith("/zipcode"))
 	{
-		let body = '';
-
 		req.on('data', function (data) {
-			body += data;
-			if (body.length > 1e6)
-			{
-				request.connection.destroy();
-			}
+			body = JSON.parse(data.toString('utf8'));
+			console.log(body);
 		});
 
 		req.on('end', function () {
-			zipcode = body;
-			get_current_weather(res);
+			get_current_weather(body["zipcode"], res);
 		});
-
 	}
+
 	else if (req.method === "POST" && req.url.startsWith("/closet"))
 	{
 		let body = '';
@@ -231,7 +234,6 @@ server.on("request", function(req, res) {
 
 
 
-
 server.listen(8080);
 
 // function base64_encode(file)
@@ -251,31 +253,4 @@ function add_clothing_item(imagedata, name, category, type, color, email, passwo
 	image_to_db.set("email", email);
 	image_to_db.set("password", password);
 	image_to_db.save();
-}
-
-let weather_status = "";
-let low = "";
-let high = "";
-
-function get_current_weather(res){
-	let endpoint = `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode}&appid=${api_key}`;
-	https.request(`${endpoint}`, {method:"GET"}, process_stream).end();
-	function process_stream(weather_stream){
-		let weather_data = "";
-		weather_stream.on("data", chunk => weather_data += chunk);
-		weather_stream.on("end", () => {
-			serve_results(weather_data, res);
-		});
-	}
-}
-
-function serve_results(weather_data, res){
-	weather = JSON.parse(weather_data);
-	low = ((weather.main.temp_min - 273.15) * 9) / 5 + 32;
-	high = ((weather.main.temp_max - 273.15) * 9) / 5 + 32;
-	weather_status = weather.weather[0].main.toLowerCase();
-	low = Math.round(low);
-	high = Math.round(high);
-	res.write(`The weather is ${weather_status} with a high of ${high} °F and a low of ${low} °F.`);
-	res.end();
 }
