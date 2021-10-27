@@ -19,15 +19,8 @@ const server = http.createServer();
 server.on("listening", () => {});
 
 
-/*
-request requires JSON
-{ "zipcode":int }
-
-response outputs JSON
-{ "status":string
-	"high":int
-	"low":int }
-*/
+//request requires JSON   { "zipcode":int }
+//response outputs JSON   { "status":string, "high":int, "low":int } */
 server.on("request", function(req, res) {
 	if (req.method === "POST" && req.url.startsWith("/zipcode"))
 	{
@@ -214,7 +207,7 @@ server.on("request", function(req, res) {
 			console.log(body);
 		});
 		req.on('end', function () {
-			parseUserSignup(body["username"], body["email"], body["password"], res);
+			parseUserSignup(body["username"], body["email"], body["password"], body["zipcode"], res);
 		});
 	}
 
