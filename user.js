@@ -3,11 +3,12 @@ Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoT
 Parse.serverURL = "https://parseapi.back4app.com/"
 
 
-async function parseUserSignup(usern, email, pass, res){
+async function parseUserSignup(usern, email, pass, zip, res){
 	const user = new Parse.User();
 	user.set("username", usern);
 	user.set("password", pass);
 	user.set("email", email);
+	user.set("zipcode", zip)
 
 	try {
 		await user.signUp();
