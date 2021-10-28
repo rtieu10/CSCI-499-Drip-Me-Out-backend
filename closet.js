@@ -14,13 +14,14 @@ async function getClosetItems(data, res){
       const object = results[i];
       const info = JSON.stringify({
            "id" : object.id,
-           "label": object.get("name")
+           "label": object.get("name"),
+           "image": object.get("imagedata")
       });
       if (userCloset === []){
         res.write("empty");
         res.end();
       }
-      userCloset.push([object.get("imagedata"), info]);
+      userCloset.push(info);
     }
     const result = JSON.stringify({"closet":userCloset});
     res.end(result);
