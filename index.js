@@ -6,7 +6,7 @@ const fs = require('fs');
 const url = require('url');
 const {parseUserSignup, parseUserLogin} = require("./user.js");
 const { get_current_weather, serve_results } = require("./weather.js");
-const { addImage, addItem } = require("./addItem.js");
+const { addItem } = require("./addItem.js");
 const { getClosetItems } = require("./closet.js")
 
 
@@ -49,78 +49,6 @@ server.on("request", function(req, res) {
 		});
 	}
 
-	else if (req.method === "POST" && req.url.startsWith("/closet"))
-	{
-		let body = '';
-		let user = "";
-
-		req.on('data', function (data) {
-			body += data;
-		});
-
-		req.on('end', function () {
-			user = body;
-			send_closet_items();
-		});
-
-		function send_closet_items() {
-
-			let email = "";
-			let password = "";
-
-			for (let i = 0; i < user.length; i++)
-			{
-				if (user[i] === "&")
-				{
-					email = user.substr(0, i);
-					password = user.substr(i + 1, user.length - i);
-				}
-			}
-
-			const ClothingItem = Parse.Object.extend("ClothingItem");
-			const query = new Parse.Query(ClothingItem);
-			async function find_items() {
-				const results = await query.find();
-				let i = 0;
-				function get_image_path() {
-					query.get(results[i].id).then((clothingItem) => {
-						let image_data = clothingItem.get("imagedata");
-						let image_email = clothingItem.get("email");
-						let image_password = clothingItem.get("password");
-						let image_objectid = results[i].id;
-						if (email === image_email && password === image_password)
-						{
-							res.write(image_data + image_objectid + "*");
-						}
-						if (i < results.length - 1)
-						{
-							i++;
-							get_image_path();
-						}
-						else {
-							res.end();
-						}
-					}, (error) => {
-						console.log('item not retrieved, error');
-					});
-				}
-				get_image_path();
-			}
-			find_items();
-		}
-	}
-	else if (req.method === "POST" && req.url.startsWith("/addimage"))
-	{
-		let body = '';
-
-		req.on('data', function (data) {
-			body += data;
-		});
-
-		req.on('end', function () {
-			addImage(body, res)
-		});
-	}
 	else if (req.method === "POST" && req.url.startsWith("/additem"))
 	{
 		let body;

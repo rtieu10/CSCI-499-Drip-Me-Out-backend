@@ -2,17 +2,10 @@ const Parse = require('parse/node');
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
 Parse.serverURL = "https://parseapi.back4app.com/"
 
-let image = '';
-
-function addImage(data, res){
-  image = data.substr("data:image/jpeg;base64,".length, data.length - "data:image/jpeg;base64,".length);
-  console.log("image saved");
-  res.write("added");
-  res.end();
-}
 
 async function addItem(data, res){
-  duplicate = await checkDuplicate(data, res)
+  let image = data["image"].substr("data:image/jpeg;base64,".length, data["image"].length - "data:image/jpeg;base64,".length);
+  duplicate = await checkDuplicate(data, image, res);
   console.log(`duplicate = ${duplicate}`);
   if(!(duplicate)){
     let item = new Parse.Object("ClothingItem");
@@ -28,7 +21,7 @@ async function addItem(data, res){
   }
 }
 
-async function checkDuplicate(data, res) {
+async function checkDuplicate(data, image, res) {
   const ClothingItem = Parse.Object.extend("ClothingItem");
   const query = new Parse.Query(ClothingItem);
   query.equalTo("email", data["email"]);
@@ -51,4 +44,4 @@ async function checkDuplicate(data, res) {
   return false;
 }
 
-module.exports = { addImage, addItem };
+module.exports = { addItem };
