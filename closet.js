@@ -17,10 +17,6 @@ async function getClosetItems(data, res){
            "label": object.get("name"),
            "image": object.get("imagedata")
       });
-      if (userCloset === []){
-        res.write("empty");
-        res.end();
-      }
       userCloset.push(info);
     }
     const result = JSON.stringify({"closet":userCloset});
