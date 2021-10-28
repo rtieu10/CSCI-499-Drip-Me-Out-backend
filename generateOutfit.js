@@ -35,7 +35,7 @@ async function fetchParse(user){
 
 //iterate through the users clothing and organize by catagories
 function organizeCatagories(arrClothings){
-
+  
 }
 
 //runs the function for each individual catagory based on the weather
