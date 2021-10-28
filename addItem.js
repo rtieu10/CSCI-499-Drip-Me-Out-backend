@@ -31,6 +31,7 @@ async function addItem(data, res){
 async function checkDuplicate(data, res) {
   const ClothingItem = Parse.Object.extend("ClothingItem");
   const query = new Parse.Query(ClothingItem);
+  query.equalTo("email", data["email"]);
   try{
     const results = await query.find();
     for (let i = 0; i < results.length; i++) {
