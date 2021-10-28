@@ -6,6 +6,7 @@ const fs = require('fs');
 const url = require('url');
 const {parseUserSignup, parseUserLogin} = require("./user.js")
 const { get_current_weather, serve_results } = require("./weather.js")
+const { addImage, addItem } = require("./addItem.js")
 
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
@@ -94,109 +95,29 @@ server.on("request", function(req, res) {
 			find_items();
 		}
 	}
-	else if (req.method === "POST" && req.url.startsWith("/additem"))
+	else if (req.method === "POST" && req.url.startsWith("/addimage"))
 	{
 		let body = '';
-		let item = "";
 
 		req.on('data', function (data) {
 			body += data;
 		});
 
 		req.on('end', function () {
-			item = body;
-			addtodb();
+			addImage(body, res)
+		});
+	}
+	else if (req.method === "POST" && req.url.startsWith("/additem"))
+	{
+		let body;
+
+		req.on('data', function (data) {
+			body = JSON.parse(data.toString('utf8'));
 		});
 
-		function addtodb() {
-			let counter = 0;
-			let counter2 = 0;
-			let type = "";
-			let category = "";
-			let label = "";
-			let color = "";
-			let img_base_64 = "";
-			let email = "";
-			let password = "";
-			for (let i = 0; i < item.length; i++)
-			{
-				if (item[i] === "&" && counter2 === 0)
-				{
-					type = item.substr(counter, i);
-					counter2++;
-					counter = i + 1;
-				}
-				else if (item[i] === "&" && counter2 === 1)
-				{
-					category = item.substr(counter, i - counter);
-					counter2++;
-					counter = i + 1;
-				}
-				else if (item[i] === "&" && counter2 === 2)
-				{
-					label = item.substr(counter, i - counter);
-					counter2++;
-					counter = i + 1;
-				}
-				else if (item[i] === "&" && counter2 === 3)
-				{
-					color = item.substr(counter, i - counter);
-					counter2++;
-					counter = i + 1;
-				}
-				else if (item[i] === "&" && counter2 === 4)
-				{
-					img_base_64 = item.substr(counter, i - counter);
-					counter2++;
-					counter = i + 1;
-				}
-				else if (item[i] === "&" && counter2 === 5)
-				{
-					email = item.substr(counter, i - counter);
-					password = item.substr(i + 1, item.length - i + 1);
-					counter2++;
-					counter = i + 1;
-				}
-			}
-			let actual_base_64 = img_base_64.substr("data:image/jpeg;base64,".length, img_base_64.length - "data:image/jpeg;base64,".length);
-
-			const ClothingItem = Parse.Object.extend("ClothingItem");
-			const query = new Parse.Query(ClothingItem);
-			async function find_clothing_item() {
-				const results = await query.find();
-				let i = 0;
-				let recorded = false;
-				function check_item()
-				{
-					query.get(results[i].id).then((item) => {
-						let stored_email = item.get('email');
-						let stored_base64 = item.get('imagedata');
-						let stored_password = item.get('password');
-						if (stored_base64 === actual_base_64 && stored_email === email && stored_password === password)
-						{
-							res.write("recorded");
-							res.end();
-						}
-						else if (i < results.length - 1) {
-							i++;
-							check_item();
-						}
-						else if (i + 1 === results.length)
-						{
-							res.write("added");
-							res.end();
-							add_clothing_item(actual_base_64, label, category, type, color, email, password);
-						}
-
-					}, (error) => {
-						console.log('user not retrieved, error');
-					});
-				}
-				check_item();
-			};
-			find_clothing_item();
-
-		}
+		req.on('end', function () {
+			addItem(body, res)
+		});
 	}
 
 	else if (req.method === "POST" && req.url.startsWith("/signup"))
