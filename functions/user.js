@@ -34,7 +34,7 @@ async function parseUserLogin(email, pass, res){
 		res.end(data);
 	} catch (error) {
 		console.log("Error: " + error.code + " " + error.message);
-		res.write("unsuccessful");
+		// res.write("unsuccessful");
 		let data = JSON.stringify({
 	    "response": "unsuccessful"
 	  });
