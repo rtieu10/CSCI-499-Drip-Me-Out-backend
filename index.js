@@ -8,6 +8,7 @@ const {parseUserSignup, parseUserLogin} = require("./user.js");
 const { get_current_weather, serve_results } = require("./weather.js");
 const { addItem } = require("./addItem.js");
 const { getClosetItems } = require("./closet.js")
+const { generateOutfit } = require("./generateOutfit.js")
 
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
@@ -84,6 +85,18 @@ server.on("request", function(req, res) {
 		});
 		req.on('end', function () {
 			parseUserLogin(body["email"], body["password"], res);
+		});
+	}
+
+	else if (req.method === "POST" && req.url.startsWith("/generate"))
+	{
+		let body;
+		req.on('data', function (data) {
+			body = JSON.parse(data.toString('utf8'));
+			console.log(body);
+		});
+		req.on('end', function () {
+			generateOutfit(body, res);
 		});
 	}
 });
