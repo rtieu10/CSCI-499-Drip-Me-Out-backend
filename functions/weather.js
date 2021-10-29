@@ -49,16 +49,18 @@ async function getWeatherOutfit(email, avg, weatherStatus) {
 	const results = await query.find()
 
 	let outfit = [];
-	console.log(outfit === [])
+
+	let item_randomizer = [];
 
 	let items = organizeCatagories(results);
-	console.log(items.pants);
-	console.log(items.pants != [])
 	if (avg <= 35) {
-		if (items.sweaters != [])
-		{
-
-		}
+		item_randomizer = item_randomizer.concat(items.sweaters);
+		item_randomizer = item_randomizer.concat(items.hoodies);
+		item_randomizer = item_randomizer.concat(items.jackets);
+		item_randomizer = item_randomizer.concat(items.long_sleeve);
+		let randomIndex = Math.floor(Math.random() * results.short_sleeve.length);
+		let randomShortSleeveItem =  results.short_sleeve[randomIndex];
+		outfit.push(randomShortSleeveItem);
 	}
 	else if (avg < 50) {
 	}

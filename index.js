@@ -4,11 +4,11 @@ const Parse = require('parse/node');
 const http = require('http');
 const fs = require('fs');
 const url = require('url');
-const {parseUserSignup, parseUserLogin} = require("./user.js");
-const { get_current_weather, serve_results } = require("./weather.js");
-const { addItem } = require("./addItem.js");
-const { getClosetItems } = require("./closet.js")
-const { generateOutfit } = require("./generateOutfit.js")
+const {parseUserSignup, parseUserLogin} = require("./functions/user.js");
+const { getCurrentWeather, serveResults } = require("./functions/weather.js");
+const { addItem } = require("./functions/addItem.js");
+const { getClosetItems } = require("./functions/closet.js")
+const { generateOutfit } = require("./functions/generateOutfit.js")
 
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
@@ -27,13 +27,21 @@ server.on("listening", () => {});
 server.on("request", function(req, res) {
 	if (req.method === "POST" && req.url.startsWith("/zipcode"))
 	{
+		let body;
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
-			console.log(body);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 
 		req.on('end', function () {
-			get_current_weather(body["zipcode"], res);
+			// When the data buffers end or there's no more data buffers to be appended
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
+			getCurrentWeather(body["zipcode"], res, body["email"]); //body['email']
 		});
 	}
 
@@ -41,11 +49,17 @@ server.on("request", function(req, res) {
 	{
 		let body;
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
-			console.log(body);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 
 		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
 			getClosetItems(body, res);
 		});
 	}
@@ -55,10 +69,16 @@ server.on("request", function(req, res) {
 		let body;
 
 		req.on('data', function (data) {
-			body = JSON.parse(data);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 
-		req.on('end', function () {
+		req.on('end', function () 	{		
+			body = JSON.parse(body.toString('utf8'));
 			addItem(body, res)
 		});
 	}
@@ -67,10 +87,16 @@ server.on("request", function(req, res) {
 	{
 		let body;
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
-			console.log(body);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
 			parseUserSignup(body["username"], body["email"], body["password"], body["zipcode"], res);
 		});
 	}
@@ -80,10 +106,15 @@ server.on("request", function(req, res) {
 	{
 		let body;
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
-			console.log(body);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
 			parseUserLogin(body["email"], body["password"], res);
 		});
 	}
@@ -92,10 +123,16 @@ server.on("request", function(req, res) {
 	{
 		let body;
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
-			console.log(body);
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
 		});
 		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
 			generateOutfit(body, res);
 		});
 	}
