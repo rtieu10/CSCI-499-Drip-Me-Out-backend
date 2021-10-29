@@ -30,9 +30,6 @@ function serveResults(weatherData, res, email) { // email
 	low = Math.round(low);
 	high = Math.round(high);
 
-	let avg = (high + low) / 2;
-
-	getWeatherOutfit(email, avg, weatherStatus);
 
 	let data = JSON.stringify({
 		"status": weatherStatus,
@@ -42,113 +39,5 @@ function serveResults(weatherData, res, email) { // email
 	res.end(data);
 }
 
-async function getWeatherOutfit(email, avg, weatherStatus) {
-	const ClothingItem = Parse.Object.extend("ClothingItem");
-	const query = new Parse.Query(ClothingItem);
-	query.equalTo("email", email)
-	const results = await query.find()
 
-	let outfit = [];
-
-	let item_randomizer = [];
-
-	let items = organizeCatagories(results);
-	if (avg <= 35) {
-		item_randomizer = item_randomizer.concat(items.sweaters);
-		item_randomizer = item_randomizer.concat(items.hoodies);
-		item_randomizer = item_randomizer.concat(items.jackets);
-		item_randomizer = item_randomizer.concat(items.long_sleeve);
-		let randomIndex = Math.floor(Math.random() * results.short_sleeve.length);
-		let randomShortSleeveItem =  results.short_sleeve[randomIndex];
-		outfit.push(randomShortSleeveItem);
-	}
-	else if (avg < 50) {
-	}
-	else if (avg >= 50 && avg <= 70) {
-		if (avg >= 60 && avg <= 75) {
-
-		}
-	}
-	else if (avg > 70) {
-
-	}
-	if (weatherStatus === "rain" || weatherStatus === "snow") {
-	}
-	else if (avg > 70) {
-
-	}
-	else {
-
-	}
-}
-
-function organizeCatagories(arrClothings) {
-	//initialize empty arrays for categories
-	coats = []
-	sweaters = []
-	hoodies = []
-	jackets = []
-	long_sleeve = []
-	short_sleeve = []
-	sleeveless = []
-	pants = []
-	shorts = []
-	open_toed = []
-	closed_toed = []
-	boots = []
-	dresses = []
-
-	//iterate through array of clothing, and sort the items into respective arrays
-	for (let i = 0; i < arrClothings.length; i++) {
-		if (arrClothings[i].get('category') == 'Coats') {
-			coats.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Jacket') {
-			jackets.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Sweater') {
-			sweaters.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Hoodie') {
-			hoodies.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Long Sleeve T-shirt') {
-			long_sleeve.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Short Sleeve T-shirt') {
-			short_sleeve.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Sleeveless shirt') {
-			sleeveless.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Pants') {
-			pants.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Shorts / Skirt') {
-			shorts.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Open Toed Shoes') {
-			open_toed.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Close Toed Shoes') {
-			closed_toed.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Rain Boots') {
-			boots.push(arrClothings[i])
-		}
-		else if (arrClothings[i].get('category') == 'Dress') {
-			dresses.push(arrClothings[i])
-		}
-	}
-
-	let clothing_sort = {
-		'coats': coats, 'sweaters': sweaters, 'jackets': jackets, 'hoodies': hoodies, 'long_sleeve': long_sleeve,
-		'short_sleeve': short_sleeve, 'sleeveless': sleeveless, 'pants': pants,
-		'shorts': shorts, 'open_toed': open_toed, 'closed_toed': closed_toed,
-		'boots': boots, 'dresses': dresses
-	}
-
-	return clothing_sort
-}
-
-module.exports = { getCurrentWeather, serveResults };
+module.exports = { getCurrentWeather };

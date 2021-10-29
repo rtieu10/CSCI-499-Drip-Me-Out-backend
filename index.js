@@ -5,7 +5,7 @@ const http = require('http');
 const fs = require('fs');
 const url = require('url');
 const {parseUserSignup, parseUserLogin} = require("./functions/user.js");
-const { getCurrentWeather, serveResults } = require("./functions/weather.js");
+const { getCurrentWeather,  } = require("./functions/weather.js");
 const { addItem } = require("./functions/addItem.js");
 const { getClosetItems } = require("./functions/closet.js")
 const { generateOutfit } = require("./functions/generateOutfit.js")
@@ -77,7 +77,7 @@ server.on("request", function(req, res) {
 			}
 		});
 
-		req.on('end', function () 	{		
+		req.on('end', function () 	{
 			body = JSON.parse(body.toString('utf8'));
 			addItem(body, res)
 		});
