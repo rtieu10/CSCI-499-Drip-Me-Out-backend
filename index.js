@@ -55,7 +55,7 @@ server.on("request", function(req, res) {
 		let body;
 
 		req.on('data', function (data) {
-			body = JSON.parse(data.toString('utf8'));
+			body = JSON.parse(data);
 		});
 
 		req.on('end', function () {

@@ -4,14 +4,15 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 
 
 async function addItem(data, res){
-  let image = data["image"].substr("data:image/jpeg;base64,".length, data["image"].length - "data:image/jpeg;base64,".length);
+  let imageData = data["image"];
+  let image = imageData.substr("data:image/jpeg;base64,".length, imageData.length - "data:image/jpeg;base64,".length);
   duplicate = await checkDuplicate(data, image, res);
   console.log(`duplicate = ${duplicate}`);
   if(!(duplicate)){
     let item = new Parse.Object("ClothingItem");
     item.set("name", data["label"]);
     item.set("imagedata", image);
-    item.set("category", data["label"]);
+    item.set("category", data["category"]);
     item.set("color", data["color"]);
     item.set("email", data["email"]);
     item.save();
