@@ -26,12 +26,19 @@ async function parseUserSignup(usern, email, pass, zip, res){
 async function parseUserLogin(email, pass, res){
 	try{
 		const user = await Parse.User.logIn(email, pass);
-		res.write("verified")
-		res.end();
+		let data = JSON.stringify({
+	    "response": "verified",
+	    "zipcode": user.get("zipcode"),
+	    "username":user.get("username")
+	  });
+		res.end(data);
 	} catch (error) {
 		console.log("Error: " + error.code + " " + error.message);
 		res.write("unsuccessful");
-		res.end();
+		let data = JSON.stringify({
+	    "response": "unsuccessful"
+	  });
+		res.end(data);
 	}
 }
 
