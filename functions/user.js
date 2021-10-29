@@ -27,7 +27,7 @@ async function parseUserSignup(usern, email, pass, zip, res){
 			res.write("unsuccessful");
 			res.end();
 		}
-		
+
 	}
 }
 
