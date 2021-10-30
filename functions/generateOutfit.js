@@ -6,7 +6,8 @@ async function generateOutfit(data, res){
   const arrClothings = await fetchParse(data["user"]);
   const clothing_sort = organizeCategories(arrClothings);
   const outfit = pickOutfit(data, clothing_sort);
-  const result = {"outfit":outfit};
+  const result = JSON.stringify({"outfit":outfit});
+  res.end(result)
   console.log(result);
 
 }
@@ -110,7 +111,8 @@ function pushItem(item, arr){
     "name": item.get("name"),
     "category": item.get("category"),
     "id": item.id,
-    "email": item.get("email")
+    "email": item.get("email"),
+    "image": item.get("imagedata")
   };
   console.log(info);
   arr.push(info);
