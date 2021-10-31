@@ -74,7 +74,7 @@ function organizeCategories(arrClothings){
       pushItem(arrClothings[i], short_sleeve);
     }
     else if(arrClothings[i].get('category') == 'Sleeveless Top'){
-      pushItem(arrClothings[i], sleeveles);
+      pushItem(arrClothings[i], sleeveless);
     }
     else if(arrClothings[i].get('category') == 'Pants'){
       pushItem(arrClothings[i], pants);
