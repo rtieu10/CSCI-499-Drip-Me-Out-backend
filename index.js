@@ -9,7 +9,9 @@ const { getCurrentWeather,  } = require("./functions/weather.js");
 const { addItem } = require("./functions/addItem.js");
 const { getClosetItems } = require("./functions/closet.js")
 const { generateOutfit } = require("./functions/generateOutfit.js")
-
+const { viewItem } = require("./functions/viewItem.js");
+const { editItem } = require("./functions/editItem.js");
+const { removeItem } = require("./functions/removeItem.js");
 
 Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoTwKUXC3rGIHlhMCYqcG05W","jQWPaIzUhciZlOvs8fm8Jweo2E83ESlktBX29kWe")
 Parse.serverURL = "https://parseapi.back4app.com/"
@@ -136,6 +138,58 @@ server.on("request", function(req, res) {
 			generateOutfit(body, res);
 		});
 	}
+	else if (req.method === "POST" && req.url.startsWith("/view"))
+	{
+		let body;
+		req.on('data', function (data) {
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
+		});
+		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
+			viewItem(body, res);
+		});
+	}
+	else if (req.method === "POST" && req.url.startsWith("/edit"))
+	{
+		let body;
+		req.on('data', function (data) {
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
+		});
+		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
+			editItem(body, res);
+		});
+	}
+	else if (req.method === "POST" && req.url.startsWith("/remove"))
+	{
+		let body;
+		req.on('data', function (data) {
+			body += data;
+			// undefined is part of the data buffer, so we delete that section
+			if (body.substr(0, 9) == 'undefined')
+			{
+				body = body.substr(9, body.length - 9);
+			}
+		});
+		req.on('end', function () {
+			body = JSON.parse(body.toString('utf8'));
+			console.log(body);
+			removeItem(body, res);
+		});
+	}
+
 });
 
 
