@@ -5,6 +5,10 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 
 async function editItem(data, res){
   let image = data["image"].substr("data:image/jpeg;base64,".length, data["image"].length - "data:image/jpeg;base64,".length);
+  if (data["image"].substr(12, 3) === "png")
+  {
+    image = data["image"].substr("data:image/png;base64,".length, data["image"].length - "data:image/png;base64,".length);
+  }
   duplicate = await checkDuplicate(data, image, res);
   console.log(`duplicate = ${duplicate}`);
   if(!(duplicate)){
