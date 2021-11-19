@@ -15,7 +15,8 @@ async function getClosetItems(data, res){
       const info = JSON.stringify({
            "id" : object.id,
            "label": object.get("name"),
-           "image": object.get("imagedata")
+           "image": object.get("imagedata"),
+           "category": object.get("category")
       });
       userCloset.push(info);
     }
