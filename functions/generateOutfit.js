@@ -61,7 +61,7 @@ function organizeCategories(arrClothings){
 
   //iterate through array of clothing, and sort the items into respective arrays
   for(let i = 0; i < arrClothings.length; i++){
-    if(arrClothings[i].get('type') == 'Coats'){
+    if(arrClothings[i].get('category') == 'Coats'){
       pushItem(arrClothings[i], coats);
     }
     else if(arrClothings[i].get('category') == 'Hoodies/Sweaters/Jackets'){
