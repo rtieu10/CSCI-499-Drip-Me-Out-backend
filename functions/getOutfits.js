@@ -19,6 +19,7 @@ async function getOutfits(data, res){
       userCloset.push(info);
     }
     const result = JSON.stringify({"outfits":userOutfits});
+    console.log(results);
     res.end(result);
   }catch (error) {
 		console.log("Error: " + error.code + " " + error.message);

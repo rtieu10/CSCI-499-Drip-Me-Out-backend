@@ -5,10 +5,14 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 async function saveOutfit(data, res){
   let item = new Parse.Object("Outfit");
   item.set("name",data["name"]);
-  item.set("clothingList",data["clothingList"]);
-  item.set("email",data["email"]);
+  item.set("clothingList",data["outfit"]);
+  item.set("email",data["user"]);
   item.save();
   res.end();
 }
+async function checkDuplicate(data, res) {
+}
+
+
 
 module.exports = { saveOutfit };
