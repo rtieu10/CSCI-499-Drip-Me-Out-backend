@@ -3,10 +3,10 @@ Parse.initialize("8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1","YA2lm6qSHNHU72qWeoT
 Parse.serverURL = "https://parseapi.back4app.com/"
 
 
-async function getClosetItems(data, res){
-  let userCloset = [];
-  const ClothingItem = Parse.Object.extend("ClothingItem");
-  const query = new Parse.Query(ClothingItem);
+async function getOutfits(data, res){
+  let userOutfits = [];
+  const Outfit = Parse.Object.extend("Outfit");
+  const query = new Parse.Query(Outfit);
   query.equalTo("email", data["email"]);
   try{
     const results = await query.find();
@@ -14,13 +14,12 @@ async function getClosetItems(data, res){
       const object = results[i];
       const info = JSON.stringify({
            "id" : object.id,
-           "label": object.get("name"),
-           "image": object.get("imagedata"),
-           "category": object.get("category")
+           "name": object.get("name"),
       });
       userCloset.push(info);
     }
-    const result = JSON.stringify({"closet":userCloset});
+    const result = JSON.stringify({"outfits":userOutfits});
+    console.log(results);
     res.end(result);
   }catch (error) {
 		console.log("Error: " + error.code + " " + error.message);
@@ -30,4 +29,4 @@ async function getClosetItems(data, res){
 }
 
 
-module.exports = { getClosetItems };
+module.exports = { getOutfits };

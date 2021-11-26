@@ -8,7 +8,7 @@ async function generateOutfit(data, res) {
   const outfit = pickOutfit(data, clothing_sort);
   const result = JSON.stringify({"outfit":outfit});
   res.end(result)
-  console.log(result);
+  // console.log(result);
 
 }
 
@@ -84,9 +84,9 @@ function organizeCategories(arrClothings) {
   short_sleeve = [];
 
   //iterate through array of clothing, and sort the items into respective arrays
-  for(let i = 0; i < arrClothings.length; i++) {
-    if(arrClothings[i].get('subcategory') == 'Coat') {
-      pushItem(arrClothings[i], coat);
+  for(let i = 0; i < arrClothings.length; i++){
+    if(arrClothings[i].get('category') == 'Coats'){
+      pushItem(arrClothings[i], coats);
     }
     else if(arrClothings[i].get('subcategory') == 'Jacket') {
       pushItem(arrClothings[i], jacket);
@@ -218,14 +218,14 @@ function pushItem(item, arr) {
     "email": item.get("email"),
     "image": item.get("imagedata")
   };
-  console.log(info);
+  // console.log(info);
   arr.push(info);
 }
 
 //runs the function for each individual category based on the weather
 //fills in result array of the randomly generated outfit
-function pickOutfit(data, clothing_sort) {
-  console.log(clothing_sort["short_sleeve"]);
+function pickOutfit(data, clothing_sort){
+  // console.log(clothing_sort["short_sleeve"]);
   const temp = data["temp"];
   const condition = data["condition"];
   result = [];
