@@ -16,10 +16,10 @@ async function getOutfits(data, res){
            "id" : object.id,
            "name": object.get("name"),
       });
-      userCloset.push(info);
+      userOutfits.push(info);
     }
     const result = JSON.stringify({"outfits":userOutfits});
-    console.log(results);
+    console.log(result);
     res.end(result);
   }catch (error) {
 		console.log("Error: " + error.code + " " + error.message);
