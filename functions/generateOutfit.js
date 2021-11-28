@@ -240,10 +240,10 @@ function pickOutfit(data, clothing_sort){
     if(temp >= 46 && temp < 65) {
       pickRandomItem(clothing_sort["maxidress"] + clothing_sort["jumpsuit"], clothing_sort, result);
     }
-    if else(temp >= 65 && temp < 80) {
+    else if(temp >= 65 && temp < 80) {
       pickRandomItem(clothing_sort["maxidress"] + clothing_sort["mididress"] + clothing_sort["jumpsuit"], clothing_sort, result);
     }
-    if else(temp >= 80) {
+    else if(temp >= 80) {
       pickRandomItem(clothing_sort["minidress"] + clothing_sort["romper"], clothing_sort, result);
     }
   }
@@ -283,7 +283,7 @@ function pickOutfit(data, clothing_sort){
           clothing_sort["tank_top"] + clothing_sort["crop_top"] + clothing_sort["blouse"] + clothing_sort["bodysuit"] + clothing_sort["buttonup_shirt"] + clothing_sort["long_sleeve"] + clothing_sort["short_sleeve"],
           clothing_sort, result);
     }
-    else if((temp < 65 && (!(empty(clothing_sort["hoodie"])) || !(empty(clothing_sort["sweatshirt"])) || !(empty(clothing_sort["cardigan"])) || !(empty(clothing_sort["sweater"])))) {
+    else if(temp < 65 && (!(empty(clothing_sort["hoodie"])) || !(empty(clothing_sort["sweatshirt"])) || !(empty(clothing_sort["cardigan"])) || !(empty(clothing_sort["sweater"])))) {
       pickRandomItem(
         clothing_sort["hoodie"] + clothing_sort["sweatshirt"] + clothing_sort["cardigan"] + clothing_sort["sweater"],
         clothing_sort, result);
