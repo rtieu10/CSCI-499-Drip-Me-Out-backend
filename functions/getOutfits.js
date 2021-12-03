@@ -48,6 +48,7 @@ async function outfitLookUp(data, res){
   }, (error) => {
     console.log(error)
   });
+  console.log(resultOutfit);
 }
 
 function pushItem(item, arr){
@@ -56,11 +57,11 @@ function pushItem(item, arr){
     "category": item.get("category"),
     "id": item.id,
     "email": item.get("email"),
-    "image": item.get("imagedata")
+    //"image": item.get("imagedata")
   };
   // console.log(info);
   arr.push(info);
 }
 
 
-module.exports = { getOutfits };
+module.exports = { getOutfits , outfitLookUp};
