@@ -4,7 +4,7 @@ Previous Version: **https://hashirakhan.github.io/CSCI-499-Drip-Me-Out/#/**
 
 Run `node index.js`
 
-**Note**: you may need to comment out the credential.json and Weather API function and also note that you will not have current weather updates
+**Note**: Since backend has not been deployed, you will need your own OpenWeatherMap API key for weather-related functionalities
 
 **Front-end**: https://github.com/HashirAKhan/CSCI-499-Drip-Me-Out
 

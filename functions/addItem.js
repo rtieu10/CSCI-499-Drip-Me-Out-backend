@@ -12,7 +12,9 @@ async function addItem(data, res){
     item.set("name", data["label"]);
     item.set("imagedata", image);
     item.set("category", data["category"]);
+    item.set("subcategory", data["subcategory"]);
     item.set("color", data["color"]);
+    item.set("color2", data["color2"]);
     item.set("email", data["email"]);
     item.save();
     res.write("added");
