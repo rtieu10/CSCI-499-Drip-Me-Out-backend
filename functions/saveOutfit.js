@@ -11,6 +11,18 @@ async function saveOutfit(data, res){
   res.end();
 }
 async function checkDuplicate(data, res) {
+  const Outfit = Parse.Object.extend("Outfit");
+  query.equalTo("email", user);
+  try{
+    //waits for the results array to be populated with the data that meets the conditions
+    const results = await query.find();
+    for (let i = 0; i < results.length; i++){
+      const object = results[i];
+    }
+    return results
+  } catch (error) {
+		console.log("Error: " + error.code + " " + error.message);
+  }
 }
 
 

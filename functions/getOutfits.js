@@ -28,5 +28,39 @@ async function getOutfits(data, res){
 	}
 }
 
+async function outfitLookUp(data, res){
+  let resultOutfit = [];
+  const Outfit = Parse.Object.extend("Outfit");
+  const query = new Parse.Query(Outfit);
+  query.get(data["id"]);
+  .then( (outfit) => {
+    clothingItems = outfit.get(clothingList);
+    for (var i = 0; i < outfit.length; i++) {
+      const ClothingItem = Parse.Object.extend("ClothingItem");
+      const query = new Parse.Query(ClothingItem);
+      query.get(outfit[i]);
+      .then( (clothingItem) => {
+        pushItem(clothingItem, resultOutfit);
+      }, (error) => {
+        console.log(error)
+      });
+    }
+  }, (error) => {
+    console.log(error)
+  });
+}
+
+function pushItem(item, arr){
+  const info = {
+    "name": item.get("name"),
+    "category": item.get("category"),
+    "id": item.id,
+    "email": item.get("email"),
+    "image": item.get("imagedata")
+  };
+  // console.log(info);
+  arr.push(info);
+}
+
 
 module.exports = { getOutfits };
