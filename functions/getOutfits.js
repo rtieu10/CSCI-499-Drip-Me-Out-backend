@@ -32,14 +32,17 @@ async function outfitLookUp(data, res){
   let resultOutfit = [];
   const Outfit = Parse.Object.extend("Outfit");
   const query = new Parse.Query(Outfit);
-  query.get(data["id"]);
+  query.get(data["id"])
   .then( (outfit) => {
-    clothingItems = outfit.get(clothingList);
-    for (var i = 0; i < outfit.length; i++) {
+    console.log(outfit.get("name"));
+    console.log(outfit.get("clothingList"));
+    clothingItems = outfit.get("clothingList");
+    for (var i = 0; i < clothingItem.length; i++) {
       const ClothingItem = Parse.Object.extend("ClothingItem");
-      const query = new Parse.Query(ClothingItem);
-      query.get(outfit[i]);
-      .then( (clothingItem) => {
+      const query2 = new Parse.Query(ClothingItem);
+      query2.get(clothingItems[i])
+      .then((clothingItem) => {
+        console.log(clothingItem.get("name"))
         pushItem(clothingItem, resultOutfit);
       }, (error) => {
         console.log(error)
@@ -48,10 +51,10 @@ async function outfitLookUp(data, res){
   }, (error) => {
     console.log(error)
   });
-  console.log(resultOutfit);
 }
 
 function pushItem(item, arr){
+  console.log(item.get("name"))
   const info = {
     "name": item.get("name"),
     "category": item.get("category"),
