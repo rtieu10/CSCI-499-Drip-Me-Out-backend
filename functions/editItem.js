@@ -8,17 +8,21 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 
 async function editItem(data, res) {
   let image = "";
-  if (data["image"]?.substr(12, 4) === "jpeg") {
-    data["image"].substr(
+  console.log(data["image"]?.substr(11, 4));
+  console.log(data["image"]?.substr(11, 3));
+  if (data["image"]?.substr(11, 4) === "jpeg") {
+    image = data["image"].substr(
       "data:image/jpeg;base64,".length,
       data["image"].length - "data:image/jpeg;base64,".length
     );
+    console.log(image + "hello");
   }
-  if (data["image"]?.substr(12, 3) === "png") {
+  if (data["image"]?.substr(11, 3) === "png") {
     image = data["image"].substr(
       "data:image/png;base64,".length,
       data["image"].length - "data:image/png;base64,".length
     );
+    console.log(image + "hello");
   }
   duplicate = await checkDuplicate(data, image, res);
   console.log(`duplicate = ${duplicate}`);
@@ -62,6 +66,8 @@ async function checkDuplicate(data, image, res) {
       const object = results[i];
       if (
         object.get("name") === data["label"] &&
+        object.get("category") === data["category"] &&
+        object.get("color") === data["color"] &&
         image === object.get("imagedata")
       ) {
         res.write("recorded");
