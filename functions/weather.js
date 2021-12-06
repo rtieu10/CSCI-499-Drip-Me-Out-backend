@@ -35,6 +35,10 @@ function serveResults(weatherData, res, email) {
     res.end("404 city not found");
     return;
   }
+  if (weather["cod"] === "400") {
+    res.end("400 Nothing to geocode. Try changing zipcode under profile.");
+    return;
+  }
   let low = ((weather.main.temp_min - 273.15) * 9) / 5 + 32;
   let high = ((weather.main.temp_max - 273.15) * 9) / 5 + 32;
   let weatherStatus = weather.weather[0].main.toLowerCase();
