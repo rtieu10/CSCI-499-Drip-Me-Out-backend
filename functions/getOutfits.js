@@ -29,25 +29,55 @@ async function getOutfits(data, res){
 }
 
 async function outfitLookUp(data, res){
-  let resultOutfit = [];
+  let clothingItems = await getClothingIDs(data, res);
+}
+
+async function getClothingIDs(data, res){
+  let result = [];
   const Outfit = Parse.Object.extend("Outfit");
   const query = new Parse.Query(Outfit);
   query.get(data["id"])
-  .then( (outfit) => {
+  .then( async (outfit) => {
     console.log(outfit.get("name"));
     console.log(outfit.get("clothingList"));
-    clothingItems = outfit.get("clothingList");
-    for (var i = 0; i < clothingItem.length; i++) {
-      const ClothingItem = Parse.Object.extend("ClothingItem");
-      const query2 = new Parse.Query(ClothingItem);
-      query2.get(clothingItems[i])
-      .then((clothingItem) => {
-        console.log(clothingItem.get("name"))
-        pushItem(clothingItem, resultOutfit);
-      }, (error) => {
-        console.log(error)
-      });
-    }
+    result = outfit.get("clothingList");
+    await getOutfitItems(result,[], 0, res);
+  }, (error) => {
+    console.log(error)
+  });
+  return result;
+}
+
+// async function getOutfitItems(clothingItems, res){
+//   let resultOutfit = [];
+//   for (var i = 0; i < clothingItems.length; i++) {
+//     const ClothingItem = Parse.Object.extend("ClothingItem");
+//     const query = new Parse.Query(ClothingItem);
+//     query.get(clothingItems[i])
+//     .then((clothingItem) => {
+//       pushItem(clothingItem, resultOutfit);
+//     }, (error) => {
+//       console.log(error)
+//     });
+//   }
+//   console.log(resultOutfit);
+// }
+
+async function getOutfitItems(clothingItems, resultOutfit, index, res){
+  if (index >= clothingItems.length) {
+    const info = JSON.stringify({
+         "items" : resultOutfit
+    });
+    // console.log(info);
+    res.end(result);
+    return;
+  }
+  const ClothingItem = Parse.Object.extend("ClothingItem");
+  const query = new Parse.Query(ClothingItem);
+  query.get(clothingItems[index])
+  .then((clothingItem) => {
+    pushItem(clothingItem, resultOutfit);
+    getOutfitItems(clothingItems, resultOutfit, index + 1, res)
   }, (error) => {
     console.log(error)
   });
@@ -60,7 +90,7 @@ function pushItem(item, arr){
     "category": item.get("category"),
     "id": item.id,
     "email": item.get("email"),
-    //"image": item.get("imagedata")
+    "image": item.get("imagedata")
   };
   // console.log(info);
   arr.push(info);

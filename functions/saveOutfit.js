@@ -12,6 +12,11 @@ async function saveOutfit(data, res) {
   item.set("clothingList", data["outfit"]);
   item.set("email", data["user"]);
   item.save();
+  if(checkDuplicate(data, res)){
+    res.write("duplicate");
+    res.end();
+    return;
+  }
   res.write("saved");
   res.end();
 }
@@ -23,8 +28,11 @@ async function checkDuplicate(data, res) {
     const results = await query.find();
     for (let i = 0; i < results.length; i++){
       const object = results[i];
+      if(object.get("name") == data["name"]{
+        return true;
+      }
     }
-    return results
+    return true;
   } catch (error) {
 		console.log("Error: " + error.code + " " + error.message);
   }
