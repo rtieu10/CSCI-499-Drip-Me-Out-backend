@@ -28,7 +28,7 @@ async function checkDuplicate(data, res) {
     const results = await query.find();
     for (let i = 0; i < results.length; i++){
       const object = results[i];
-      if(object.get("name") == data["name"]{
+      if(object.get("name") == data["name"]){
         return true;
       }
     }
