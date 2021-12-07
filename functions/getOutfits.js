@@ -48,28 +48,14 @@ async function getClothingIDs(data, res){
   return result;
 }
 
-// async function getOutfitItems(clothingItems, res){
-//   let resultOutfit = [];
-//   for (var i = 0; i < clothingItems.length; i++) {
-//     const ClothingItem = Parse.Object.extend("ClothingItem");
-//     const query = new Parse.Query(ClothingItem);
-//     query.get(clothingItems[i])
-//     .then((clothingItem) => {
-//       pushItem(clothingItem, resultOutfit);
-//     }, (error) => {
-//       console.log(error)
-//     });
-//   }
-//   console.log(resultOutfit);
-// }
 
 async function getOutfitItems(clothingItems, resultOutfit, index, res){
   if (index >= clothingItems.length) {
     const info = JSON.stringify({
          "items" : resultOutfit
     });
-    // console.log(info);
-    res.end(result);
+    //console.log(JSON.parse(info));
+    res.end(info);
     return;
   }
   const ClothingItem = Parse.Object.extend("ClothingItem");
