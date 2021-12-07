@@ -15,6 +15,7 @@ const { removeItem } = require("./functions/removeItem.js");
 const { saveOutfit } = require("./functions/saveOutfit.js");
 const { getOutfits, outfitLookUp } = require("./functions/getOutfits.js");
 const { getItemsById } = require("./functions/getItemsById.js");
+const { editProfile } = require("./functions/editProfile.js");
 
 Parse.initialize(
   "8dTo5v19t0vWVBB4OpdmD3g7EWSGx0P93kQxQQZ1",
@@ -139,7 +140,7 @@ server.on("request", function (req, res) {
       console.log(body);
       viewItem(body, res);
     });
-  } else if (req.method === "POST" && req.url.startsWith("/edit")) {
+  } else if (req.method === "POST" && req.url.startsWith("/editItem")) {
     let body;
     req.on("data", function (data) {
       body += data;
@@ -222,6 +223,19 @@ server.on("request", function (req, res) {
       body = JSON.parse(body.toString("utf8"));
       console.log(body);
       getItemsById(body, res);
+    });
+  } else if (req.method === "POST" && req.url.startsWith("/editProfile")) {
+    let body;
+    req.on("data", function (data) {
+      body += data;
+      // undefined is part of the data buffer, so we delete that section
+      if (body.substr(0, 9) == "undefined") {
+        body = body.substr(9, body.length - 9);
+      }
+    });
+    req.on("end", function () {
+      body = JSON.parse(body.toString("utf8"));
+      editProfile(body, res);
     });
   }
 });
