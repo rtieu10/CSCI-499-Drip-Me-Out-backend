@@ -4,10 +4,6 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 
 
 async function removeItem(data, res){
-  let image = data["image"].substr("data:image/jpeg;base64,".length, data["image"].length - "data:image/jpeg;base64,".length);
-  duplicate = await checkDuplicate(data, image, res);
-  console.log(`duplicate = ${duplicate}`);
-  if(!(duplicate)){
     const ClothingItem = Parse.Object.extend("ClothingItem");
     const query = new Parse.Query(ClothingItem);
     query.equalTo("email", data["email"]);
@@ -16,7 +12,7 @@ async function removeItem(data, res){
       for (let i = 0; i < results.length; i++) {
         const object = results[i];
         if(object.id === data["id"]){
-          success: object.destroy();
+          success: object.destroy({});
         }
         res.write("removed");
         res.end();
@@ -30,9 +26,6 @@ async function removeItem(data, res){
       return true;
     }
     return false;
-  }
 }
-
-
 
 module.exports = { removeItem };
