@@ -7,7 +7,7 @@ const url = require("url");
 const { parseUserSignup, parseUserLogin } = require("./functions/user.js");
 const { getCurrentWeather } = require("./functions/weather.js");
 const { addItem } = require("./functions/addItem.js");
-const { getClosetItems } = require("./functions/closet.js");
+const { getClosetItems, filterItems } = require("./functions/closet.js");
 const { generateOutfit } = require("./functions/generateOutfit.js");
 const { viewItem } = require("./functions/viewItem.js");
 const { editItem } = require("./functions/editItem.js");
@@ -63,6 +63,21 @@ server.on("request", function (req, res) {
       body = JSON.parse(body.toString("utf8"));
       console.log(body);
       getClosetItems(body, res);
+    });
+  } else if (req.method === "POST" && req.url.startsWith("/filterCloset")) {
+    let body;
+    req.on("data", function (data) {
+      body += data;
+      // undefined is part of the data buffer, so we delete that section
+      if (body.substr(0, 9) == "undefined") {
+        body = body.substr(9, body.length - 9);
+      }
+    });
+
+    req.on("end", function () {
+      body = JSON.parse(body.toString("utf8"));
+      console.log(body);
+      filterItems(body, res);
     });
   } else if (req.method === "POST" && req.url.startsWith("/additem")) {
     let body;

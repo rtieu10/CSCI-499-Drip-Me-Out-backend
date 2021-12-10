@@ -71,13 +71,13 @@ async function getOutfitItems(clothingItems, resultOutfit, index, res){
 
 function pushItem(item, arr){
   console.log(item.get("name"))
-  const info = {
+  const info = JSON.stringify({
     "name": item.get("name"),
     "category": item.get("category"),
     "id": item.id,
     "email": item.get("email"),
     "image": item.get("imagedata")
-  };
+  });
   // console.log(info);
   arr.push(info);
 }
