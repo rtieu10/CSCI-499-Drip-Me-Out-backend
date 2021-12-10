@@ -47,12 +47,12 @@ async function filterItems(data, res){
     } else{
       categoryFilter = results;
     }
-    colorFIlters = []
-    if(data["color_checkbox"] == true) {
+    colorFilter = []
+    if(data["colors_checkbox"] == true) {
       for (let i = 0; i < categoryFilter.length; i++) {
         const object = categoryFilter[i];
-        if(object.get("color") == data["color_value"]){
-          categoryFilter.push(object);
+        if(object.get("color") == data["colors_value"]){
+          colorFilter.push(object);
         }
       }
     } else{
@@ -60,6 +60,7 @@ async function filterItems(data, res){
     }
     for (let i = 0; i < colorFilter.length; i++) {
       const object = colorFilter[i];
+      console.log(object.get("name"));
       const info = JSON.stringify({
            "id" : object.id,
            "label": object.get("name"),
