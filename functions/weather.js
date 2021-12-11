@@ -58,6 +58,7 @@ function serveResults(weatherData, res, email, isCelsius) {
 }
 
 function toCelsius(f){
+  console.log("Celsuis");
   num = (f - 32) * 5;
   return num / 5;
 }
