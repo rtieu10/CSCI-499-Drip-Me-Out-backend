@@ -183,6 +183,80 @@ function pushItem(item, arr) {
 //runs the function for each individual category based on the weather
 //fills in result array of the randomly generated outfit
 function pickOutfit(data, clothing_sort) {
+  if(data["temp_checkbox"]){
+    return outfitTempreture(data, clothing_sort);
+  }
+  else{
+    return outfitNonTempreture(data, clothing_sort)
+  }
+}
+
+function outfitNonTempreture(data, clothing_sort){
+  const condition = data["weather_value"];
+  result = [];
+  const rand = Math.floor(Math.random() * 10);
+  const rand1 = Math.floor(Math.random() * 10);
+  const rand2 = Math.floor(Math.random() * 10);
+  const rand3 = Math.floor(Math.random() * 10);
+  const rand4 = Math.floor(Math.random() * 10);
+  const rand5 = Math.floor(Math.random() * 10);
+  const rand6 = Math.floor(Math.random() * 10);
+  const rand7 = Math.floor(Math.random() * 10);
+
+  //Dress
+  if (rand < 3){
+    pickRandomItem("dresses", clothing_sort, result);
+  }
+  else{
+    //Top
+    if (rand1 < 3){
+      pickRandomItem("coats", clothing_sort, result);
+      pickRandomItem("sweaters", clothing_sort, result);
+      pickRandomItem("short_sleeve", clothing_sort, result);
+    }
+    else if (rand1 < 7){
+      pickRandomItem("coats", clothing_sort, result);
+      pickRandomItem("short_sleeve", clothing_sort, result);
+    }
+    else{
+      if(rand2 <= 3){
+        pickRandomItem("long_sleeve", clothing_sort, result);
+      }
+      else if (rand2 < 8){
+        pickRandomItem("short_sleeve", clothing_sort, result);
+      }
+      else {
+        pickRandomItem("sleeveless", clothing_sort, result);
+      }
+    }
+
+    //Bottom
+    if(rand3 < 6){
+      pickRandomItem("shorts", clothing_sort, result);
+    }
+    else{
+      pickRandomItem("pants", clothing_sort, result);
+    }
+  }
+
+  if ((condition == "rain" || condition == "snow") && !(empty(clothing_sort["boots"])) && data["weather_checkbox"]) {
+    pickRandomItem("boots", clothing_sort, result);
+  }
+  else if (rand4 < 7){
+    pickRandomItem("closed_toed", clothing_sort, result);
+  }
+  else {
+    pickRandomItem("open_toed", clothing_sort, result);
+  }
+
+  if(data["accessories_checkbox"]){
+    pickRandomItem("accessories", clothing_sort, result);
+  }
+
+  return result;
+}
+
+function outfitTempreture(data, clothing_sort){
   // console.log(clothing_sort["short_sleeve"]);
   let temp = data["temp_value"];
   console.log(typeof temp);
@@ -253,8 +327,10 @@ function pickOutfit(data, clothing_sort) {
   return result;
 }
 
-  //pass through the category to pick random item that complies with the users filters
-  function pickRandomItem(category, clothing_sort, arr) {
+
+
+//pass through the category to pick random item that complies with the users filters
+function pickRandomItem(category, clothing_sort, arr) {
   const index = Math.floor(Math.random() * clothing_sort[category].length);
   if (clothing_sort[category].length != []) {
     arr.push(clothing_sort[category][index]);
@@ -262,7 +338,7 @@ function pickOutfit(data, clothing_sort) {
   // pass dict as param
   // if category name matches key in dict, then choose random elem from the
   // array stored as a value
-  }
+}
 
 function empty(arr) {
   return arr == [];
