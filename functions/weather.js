@@ -12,7 +12,7 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 const { apiKey } = require("../credential.json");
 
 //Retrieves data from weather api
-function getCurrentWeather(zipCode, res, email) {
+function getCurrentWeather(zipCode, res, email, isCelsius) {
   // email
   let endpoint = `https://api.openweathermap.org/data/2.5/weather?zip=${zipCode}&appid=${apiKey}`;
   https.request(`${endpoint}`, { method: "GET" }, processStream).end();
@@ -21,13 +21,13 @@ function getCurrentWeather(zipCode, res, email) {
     weatherStream.on("data", (apiData) => (weatherData = apiData));
     weatherStream.on("end", () => {
       console.log(JSON.parse(weatherData));
-      serveResults(weatherData, res, email); //email
+      serveResults(weatherData, res, email, isCelsius); //email
     });
   }
 }
 
 //Formats data to send back response
-function serveResults(weatherData, res, email) {
+function serveResults(weatherData, res, email, isCelsius) {
   // email
   const weather = JSON.parse(weatherData);
   console.log(JSON.stringify(weather, null, 2));
@@ -44,6 +44,10 @@ function serveResults(weatherData, res, email) {
   let weatherStatus = weather.weather[0].main.toLowerCase();
   low = Math.round(low);
   high = Math.round(high);
+  if (isCelsius == "true"){
+    low = toCelsius(low);
+    high = toCelsius(high);
+  }
 
   let data = JSON.stringify({
     status: weatherStatus,
@@ -51,6 +55,11 @@ function serveResults(weatherData, res, email) {
     low: low,
   });
   res.end(data);
+}
+
+function toCelsius(f){
+  num = (f - 32) * 5;
+  return num / 5;
 }
 
 module.exports = { getCurrentWeather };

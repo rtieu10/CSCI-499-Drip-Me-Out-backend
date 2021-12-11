@@ -37,7 +37,8 @@ async function parseUserLogin(email, pass, res){
 		let data = JSON.stringify({
 	    "response": "verified",
 	    "zipcode": user.get("zipcode"),
-	    "username":user.get("username")
+	    "username":user.get("username"),
+			"isCelsius": user.get("isCelsius")
 	  });
 		res.end(data);
 	} catch (error) {
