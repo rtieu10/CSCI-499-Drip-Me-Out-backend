@@ -4,7 +4,7 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 
 async function generateOutfit(data, res) {
   const arrClothings = await fetchParse(data["user"]);
-  const clothing_sort = organizeCategories(arrClothings);
+  const clothing_sort = organizeCategories(data, arrClothings);
   const outfit = pickOutfit(data, clothing_sort);
   const result = JSON.stringify({"outfit":outfit});
   res.end(result)
@@ -42,7 +42,7 @@ async function fetchParse(user) {
 
 //@func: function iterates through the array of users clothing and organizes it by category
 //@arrClothings: an array that contains all the clothing the user uploaded
-function organizeCategories(arrClothings) {
+function organizeCategories(data, arrClothings) {
   //initialize empty arrays for categories
   coats = [];
   sweaters = [];
@@ -55,41 +55,105 @@ function organizeCategories(arrClothings) {
   closed_toed = [];
   boots = [];
   dresses = [];
+  accessories = [];
 
   //iterate through array of clothing, and sort the items into respective arrays
   for(let i = 0; i < arrClothings.length; i++) {
     if(arrClothings[i].get('type') == 'Coats') {
-      pushItem(arrClothings[i], coats);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], coats);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], coats);
+      }
     }
     else if(arrClothings[i].get('category') == 'Hoodies/Sweaters/Jackets') {
-      pushItem(arrClothings[i], sweaters);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], sweaters);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], sweaters);
+      }
     }
     else if(arrClothings[i].get('category') == 'Long Sleeve T-shirt') {
-      pushItem(arrClothings[i], long_sleeve);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], long_sleeve);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], long_sleeve);
+      }
     }
     else if(arrClothings[i].get('category') == 'Short Sleeve T-shirt') {
-      pushItem(arrClothings[i], short_sleeve);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], short_sleeve);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], short_sleeve);
+      }
     }
     else if(arrClothings[i].get('category') == 'Sleeveless Top') {
-      pushItem(arrClothings[i], sleeveless);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], sleeveless);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], sleeveless);
+      }
     }
     else if(arrClothings[i].get('category') == 'Pants') {
-      pushItem(arrClothings[i], pants);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], pants);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], pants);
+      }
     }
     else if(arrClothings[i].get('category') == 'Shorts/Skirt') {
-      pushItem(arrClothings[i], shorts);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], shorts);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], shorts);
+      }
     }
     else if(arrClothings[i].get('category') == 'Open Toed Shoes') {
-      pushItem(arrClothings[i], open_toed);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], open_toed);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], open_toed);
+      }
     }
     else if(arrClothings[i].get('category') == 'Close Toed Shoes') {
-      pushItem(arrClothings[i], closed_toed);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], closed_toed);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], closed_toed);
+      }
     }
     else if(arrClothings[i].get('category') == 'Rain Boots') {
-      pushItem(arrClothings[i], boots);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], boots);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], boots);
+      }
     }
     else if(arrClothings[i].get('category') == 'Dress') {
-      pushItem(arrClothings[i], dresses);
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], dresses);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], dresses);
+      }
+    }
+    else if(arrClothings[i].get('category') == 'Accessories') {
+      if(data["color_checkbox"] && arrClothings[i].get('color') == data["color_value"]){
+        pushItem(arrClothings[i], accessories);
+      }
+      else if(!(data["color_checkbox"])){
+        pushItem(arrClothings[i], accessories);
+      }
     }
   }
 
@@ -99,7 +163,7 @@ function organizeCategories(arrClothings) {
   'long_sleeve': long_sleeve, 'short_sleeve': short_sleeve,
   'sleeveless': sleeveless, 'pants': pants, 'shorts': shorts,
   'open_toed': open_toed, 'closed_toed': closed_toed, 'boots': boots,
-  'dresses': dresses};
+  'dresses': dresses, 'accessories': accessories};
 
   return clothing_sort
 }
@@ -127,7 +191,7 @@ function pickOutfit(data, clothing_sort) {
     temp = toFahrenheit(temp);
   }
   console.log(`the temp is ${temp}`);
-  const condition = data["condition"];
+  const condition = data["weather_value"];
   result = [];
   const rand = Math.floor(Math.random() * 10); //random var for long sleeves
   const rand1 = Math.floor(Math.random() * 10); // random var for sleevless
@@ -171,7 +235,8 @@ function pickOutfit(data, clothing_sort) {
   }
 
   //Shoes
-  if (condition == "rain" && !(empty(clothing_sort["boots"]))) {
+  console.log(`condition: ${condition} empty: ${!(empty(clothing_sort["boots"]))} weather: ${data["weather_checkbox"]}`)
+  if ((condition == "rain" || condition == "snow") && !(empty(clothing_sort["boots"])) && data["weather_checkbox"]) {
     pickRandomItem("boots", clothing_sort, result);
   }
   else if(temp >= 70 && rand2 > 5 && !(empty(clothing_sort["open_toed"]))) {
@@ -179,6 +244,10 @@ function pickOutfit(data, clothing_sort) {
   }
   else {
     pickRandomItem("closed_toed", clothing_sort, result);
+  }
+
+  if(data["accessories_checkbox"]){
+    pickRandomItem("accessories", clothing_sort, result);
   }
 
   return result;
