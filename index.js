@@ -47,7 +47,7 @@ server.on("request", function (req, res) {
       // When the data buffers end or there's no more data buffers to be appended
       body = JSON.parse(body.toString("utf8"));
       console.log(body);
-      getCurrentWeather(body["zipcode"], res, body["email"]); //body['email']
+      getCurrentWeather(body["zipcode"], res, body["email"], body["isCelsius"]); //body['email']
     });
   } else if (req.method === "POST" && req.url.startsWith("/closet")) {
     let body;

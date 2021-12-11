@@ -120,7 +120,13 @@ function pushItem(item, arr) {
 //fills in result array of the randomly generated outfit
 function pickOutfit(data, clothing_sort) {
   // console.log(clothing_sort["short_sleeve"]);
-  const temp = data["temp"];
+  let temp = data["temp_value"];
+  console.log(typeof temp);
+  console.log(temp);
+  if (data["isCelsius"] == "true"){
+    temp = toFahrenheit(temp);
+  }
+  console.log(`the temp is ${temp}`);
   const condition = data["condition"];
   result = [];
   const rand = Math.floor(Math.random() * 10); //random var for long sleeves
@@ -191,5 +197,9 @@ function pickOutfit(data, clothing_sort) {
 
 function empty(arr) {
   return arr == [];
+}
+
+function toFahrenheit(c){
+  return (parseFloat(c) * (9.0/5.0) + 32).toString();
 }
 module.exports = { generateOutfit };

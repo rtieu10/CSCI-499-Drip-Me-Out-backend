@@ -16,6 +16,7 @@ async function editProfile(data, res) {
     const username = `${data["firstname-profile"]} ${data["lastname-profile"]}`;
     user.set("username", username);
     user.set("zipcode", data["zipcode-profile"]);
+    user.set("isCelsius", data["isCelsius"]);
     await user.save(null, { useMasterKey: true });
     res.end("Changed");
   } catch (error) {
