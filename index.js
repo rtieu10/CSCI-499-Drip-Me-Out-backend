@@ -212,6 +212,20 @@ server.on("request", function (req, res) {
       console.log(body);
       getOutfits(body, res);
     });
+  } else if (req.method === "POST" && req.url.startsWith("/outfitLookUp")) {
+    let body;
+    req.on("data", function (data) {
+      body += data;
+      // undefined is part of the data buffer, so we delete that section
+      if (body.substr(0, 9) == "undefined") {
+        body = body.substr(9, body.length - 9);
+      }
+    });
+    req.on("end", function () {
+      body = JSON.parse(body.toString("utf8"));
+      console.log(body);
+      outfitLookUp(body, res);
+    });
   } else if (req.method === "POST" && req.url.startsWith("/deleteOutfit")) {
     let body;
     req.on("data", function (data) {
