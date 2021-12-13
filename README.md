@@ -24,35 +24,35 @@ By default it is communicating on port: 8080
 
 **Create a new account**: `/signup`
 
-**Log into a users account**: `/login`\
+**Log into a users account**: `/login`
 
-**WeatherAPI look up**: `/zipcode`\
+**WeatherAPI look up**: `/zipcode`
 
-**Get clothing items of a user**: `/closet`\
+**Get clothing items of a user**: `/closet`
 
-**Filter out clothing items of a user**: `/filterCloset`\
+**Filter out clothing items of a user**: `/filterCloset`
 
-**Add an item to the users closet**: `/additem`\
+**Add an item to the users closet**: `/additem`
 
-**Look up info on a clothing item**: `/view"`\
+**Look up info on a clothing item**: `/view"`
 
-**Edit clothing item info**: `/editItem`\
+**Edit clothing item info**: `/editItem`
 
-**Delete a clothing item**: `/remove`\
+**Delete a clothing item**: `/remove`
 
-**Generate a personalized outfit**: `/generate`\
+**Generate a personalized outfit**: `/generate`
 
-**Save an outfit**: `/saveOutfit`\
+**Save an outfit**: `/saveOutfit`
 
-**Get names of saved user outfits**: `/getOutfits`\
+**Get names of saved user outfits**: `/getOutfits`
 
-**Get info of an outfit**: `outfitLookUp`\
+**Get info of an outfit**: `outfitLookUp`
 
-**Delete an outfit**: `/deleteOutfit`\
+**Delete an outfit**: `/deleteOutfit`
 
-**Retrieve item for custom outfit**: `/getItemsById`\
+**Retrieve item for custom outfit**: `/getItemsById`
 
-**Edit users profile**: `/editProfile`\
+**Edit users profile**: `/editProfile`
 
 
 ## Links
