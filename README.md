@@ -10,7 +10,7 @@ Run `npm run start`
 **File Name**: `credential.json`
 ```
 {
-  "apiKey": <<APIKEYHERE>>
+  "apiKey": <<API_KEY_HERE>>
 }
 ```
 
