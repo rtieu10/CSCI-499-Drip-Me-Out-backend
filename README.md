@@ -22,7 +22,7 @@ By default it is communicating on port: 8080
 
 ## Endpoints
 
-**Create a new account**: `/signup`\
+**Create a new account**: `/signup`
 
 **Log into a users account**: `/login`\
 
