@@ -9,8 +9,8 @@ Parse.serverURL = "https://parseapi.back4app.com/";
 async function deleteOutfit(data, res){
     const Outfit = Parse.Object.extend("Outfit");
     const query = new Parse.Query(Outfit);
-    query.get(data.id).then((ClothingItem) => {
-      Outfit.destroy().then((object)=> {
+    query.get(data.id).then((outfit) => {
+      outfit.destroy().then((object)=> {
         console.log("Outfit was removed");
       })
       res.write("removed");
