@@ -6,25 +6,18 @@ Parse.serverURL = "https://parseapi.back4app.com/"
 async function removeItem(data, res){
     const ClothingItem = Parse.Object.extend("ClothingItem");
     const query = new Parse.Query(ClothingItem);
-    query.equalTo("email", data["email"]);
-    try{
-      const results = await query.find();
-      for (let i = 0; i < results.length; i++) {
-        const object = results[i];
-        if(object.id === data["id"]){
-          success: object.destroy({});
-        }
-        res.write("removed");
-        res.end();
-        return true;
-      }
-    }
-    catch (error) {
+    query.get(data.id).then((ClothingItem) => {
+      ClothingItem.destroy().then((object)=> {
+        console.log("Item was removed");
+      })
+      res.write("removed");
+      res.end();
+    }, (error) => {
       console.log("Error: " + error.code + " " + error.message);
       res.write("error");
       res.end();
       return true;
-    }
+    });
     return false;
 }
 
