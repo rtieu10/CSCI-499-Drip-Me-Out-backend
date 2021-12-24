@@ -1,5 +1,8 @@
 # Drip Me Out
 
+Live: **https://hashirakhan.github.io/CSCI-499-Drip-Me-Out/#/**
+
+**Live backend server**: https://dripmeout.herokuapp.com/
 
 Run `npm install` to install dependencies
 
@@ -58,5 +61,3 @@ By default it is communicating on port: 8080
 ## Links
 
 Front-End Repo: **https://github.com/HashirAKhan/CSCI-499-Drip-Me-Out**
-
-Previous Version: **https://hashirakhan.github.io/CSCI-499-Drip-Me-Out/#/**
