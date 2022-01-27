@@ -1,21 +1,9 @@
 # Drip Me Out
 
-**Live**: https://hashirakhan.github.io/CSCI-499-Drip-Me-Out/#/
-
-**Live backend server**: https://dripmeout.herokuapp.com/
-
-Run `npm install` to install dependencies
-
-Run `npm run start`
-
-**Note**: Since backend has not been deployed, you will need your own OpenWeatherMap API key for weather-related functionalities
-
-**File Name**: `credential.json`
-```
-{
-  "apiKey": <<API_KEY_HERE>>
-}
-```
+**Live**: https://hashirakhan.github.io/CSCI-499-Drip-Me-Out/#/ </br>
+**Technologie**s: JavaScript, React, HTML/CSS, Node.js </br>
+**Deployed using**: Github Pages, Heroku, Back4App </br>
+**Live backend server**: https://dripmeout.herokuapp.com/ </br>
 
 ## Description
 
@@ -61,3 +49,17 @@ By default it is communicating on port: 8080
 ## Links
 
 Front-End Repo: **https://github.com/HashirAKhan/CSCI-499-Drip-Me-Out**
+
+## Local Setup
+Run `npm install` to install dependencies
+
+Run `npm run start`
+
+**Note**: Since backend has not been deployed, you will need your own OpenWeatherMap API key for weather-related functionalities
+
+**File Name**: `credential.json`
+```
+{
+  "apiKey": <<API_KEY_HERE>>
+}
+```
